@@ -83,7 +83,13 @@ class Employee :
         SELECT * FROM employees WHERE id = %(id)s;
         """
         result = connectToMySQL(DATABASE).query_db(query,data)
-        return cls(result[0])
+        if result:
+            emps = []
+            for row in result:
+                emps.append(cls(row))
+            return emps
+        else:
+            return [0]
     
 
     @classmethod

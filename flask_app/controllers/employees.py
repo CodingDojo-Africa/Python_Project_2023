@@ -2,6 +2,7 @@ from flask_app import app
 from flask import Flask, render_template,session, request, redirect, flash
 from flask_app.models.entreprise import Entreprise
 from flask_app.models.employee import Employee
+from flask_app.models.tickets import Tickets
 from flask_app.models.work_time import Work_time
 import string,secrets
 from datetime import datetime,time
@@ -48,7 +49,6 @@ def login_employee():
     return render_template('employee_login.html')
     # return redirect('/')
 
-
 @app.route('/employee/login', methods=['POST'])
 def emp_login():
     employee_from_db = Employee.get_by_email({'email':request.form['email']})
@@ -70,7 +70,8 @@ def dash_employee():
     if not 'employee_id' in session:
         return redirect('/')
     employee = Employee.get_by_id({'id':session['employee_id']})
-
+    # entre=Entreprise.get_by_id({"id":session['employee_id']})
+    # ti=Tickets.get_by_id_employee_id({'employee_id':session['employee_id']})
     return render_template('employee_dashboard.html', employee=employee)
 
 @app.route('/logout_employee')
